@@ -48,6 +48,8 @@ app/dashboard/
 └── page.tsx           # Dashboard controller (Main State)
 ```
 
+---
+
 ## 🚀 Cara Memulai
 
 1. Klon Repositori
@@ -64,6 +66,9 @@ npm install
 ```bash
 npm run dev
 ```
+Buka http://localhost:3000 di browser Anda untuk melihat hasilnya.
+
+---
 
 ## 📝 Lisensi
 Template ini tersedia untuk penggunaan komersial setelah pembelian lisensi melalui marketplace resmi.
