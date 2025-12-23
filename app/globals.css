@@ -1,26 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import "tailwindcss";
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --foreground: #09090b; /* Zinc 950 */
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background);
+  font-feature-settings: "overline" 0, "pnum" 1, "lnum" 1, "salt" 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Membuat scrollbar lebih cantik */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #d4d4d8;
+  border-radius: 10px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Mengatur agar saat di-scroll ke ID, konten tidak tertutup navbar fixed */
+section {
+  scroll-margin-top: 80px;
+}
+
+/* Menghilangkan logo Next.js Dev Indicator secara paksa */
+nextjs-portal {
+  display: none !important;
+}
+
+/* Tambahan jika portal di atas belum mencakup semua versi */
+#node-inject {
+  display: none !important;
 }
