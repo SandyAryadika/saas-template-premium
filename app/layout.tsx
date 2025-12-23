@@ -75,9 +75,9 @@ export const metadata: Metadata = {
 
   // Ikon (Favicon)
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/apple-touch-icon.png", // Ikon saat disimpan di home screen iPhone
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png", // Ikon saat disimpan di home screen iPhone
   },
 };
 
