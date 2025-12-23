@@ -10,45 +10,69 @@ import {
   LogOut, 
   HelpCircle, 
   ChevronsUpDown, 
-  Zap 
+  Zap,
+  CreditCard,
+  Bell,
+  X // Ikon untuk menutup menu di mobile
 } from 'lucide-react';
 
+// Pembaruan Interface untuk mendukung fitur responsif
 interface SidebarProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  isOpen: boolean;    // Prop baru untuk melacak status buka/tutup di HP
+  onClose: () => void; // Prop baru untuk fungsi menutup sidebar
 }
 
-const Sidebar = ({ activeTab, setActiveTab }: SidebarProps) => {
+const Sidebar = ({ activeTab, setActiveTab, isOpen, onClose }: SidebarProps) => {
   const menuItems = [
     { name: 'Ringkasan', icon: <LayoutDashboard size={18} />, badge: null },
     { name: 'Analitik', icon: <BarChart3 size={18} />, badge: 'New' },
+    { name: 'Notifikasi', icon: <Bell size={18} />, badge: '2' },
     { name: 'Tim Kami', icon: <Users size={18} />, badge: null },
+    { name: 'Billing', icon: <CreditCard size={18} />, badge: null },
     { name: 'Pengaturan', icon: <Settings size={18} />, badge: null },
   ];
 
   return (
-    <aside className="hidden lg:flex w-72 flex-col bg-white border-r border-zinc-200 p-6 fixed h-full z-20 font-sans">
+    <aside className={`
+      /* Dasar Layout: Fixed di kiri dengan lebar 72 (w-72) */
+      fixed inset-y-0 left-0 z-40 w-72 bg-white border-r border-zinc-200 transition-transform duration-300 ease-in-out flex flex-col font-sans
+      /* Logika Responsif: Sembunyi di mobile (-translate-x-full), muncul di desktop (lg:translate-x-0) */
+      ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0
+    `}>
       
-      {/* 1. HEADER: Workspace Switcher */}
-      <div className="flex items-center justify-between p-3 mb-8 bg-zinc-50 border border-zinc-200 rounded-2xl cursor-pointer hover:bg-zinc-100 transition-all group">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xs shadow-sm">
-            S
+      {/* 1. HEADER: Workspace Switcher (Tetap di Atas / Statis) */}
+      <div className="p-6 pb-2 flex-shrink-0">
+        <div className="flex items-center justify-between mb-6 lg:mb-4">
+          <div className="text-xl font-extrabold tracking-tighter">
+            SaaS<span className="text-indigo-600">Flow</span>
           </div>
-          <div>
-            <p className="text-xs font-bold text-zinc-900 leading-none mb-1">SaaSFlow Studio</p>
-            <p className="text-[10px] text-zinc-500 font-medium">Paket Pro — 12 Tim</p>
-          </div>
+          {/* Tombol X hanya muncul di Mobile untuk menutup sidebar */}
+          <button onClick={onClose} className="lg:hidden p-2 text-zinc-500 hover:bg-zinc-100 rounded-xl transition-colors">
+            <X size={20} />
+          </button>
         </div>
-        <ChevronsUpDown size={14} className="text-zinc-400 group-hover:text-zinc-600 transition-colors" />
-      </div>
 
-      {/* 2. BODY: Main Navigation */}
-      <nav className="flex-1 space-y-1.5">
-        <p className="px-4 text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-4">
+        <div className="flex items-center justify-between p-3 mb-4 bg-zinc-50 border border-zinc-200 rounded-2xl cursor-pointer hover:bg-zinc-100 transition-all group">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xs shadow-sm">
+              S
+            </div>
+            <div>
+              <p className="text-xs font-bold text-zinc-900 leading-none mb-1">SaaSFlow Studio</p>
+              <p className="text-[10px] text-zinc-500 font-medium">Paket Pro — 12 Tim</p>
+            </div>
+          </div>
+          <ChevronsUpDown size={14} className="text-zinc-400 group-hover:text-zinc-600 transition-colors" />
+        </div>
+        <p className="px-4 text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-2">
           Menu Utama
         </p>
-        
+      </div>
+
+      {/* 2. BODY: Main Navigation (Bagian ini yang bisa di-scroll) */}
+      <nav className="flex-1 overflow-y-auto px-6 space-y-1.5 scrollbar-thin scrollbar-thumb-zinc-200 scrollbar-track-transparent">
         {menuItems.map((item) => (
           <button 
             key={item.name} 
@@ -77,10 +101,8 @@ const Sidebar = ({ activeTab, setActiveTab }: SidebarProps) => {
         ))}
       </nav>
 
-      {/* 3. FOOTER: Support & Account */}
-      <div className="pt-6 border-t border-zinc-100 space-y-4">
-        
-        {/* Support Button */}
+      {/* 3. FOOTER: Support & Account (Tetap di Bawah / Statis) */}
+      <div className="flex-shrink-0 p-6 border-t border-zinc-100 space-y-4 bg-white">
         <button 
           onClick={() => setActiveTab('Pusat Bantuan')}
           className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-bold transition-all rounded-xl ${
@@ -110,7 +132,6 @@ const Sidebar = ({ activeTab, setActiveTab }: SidebarProps) => {
           </Link>
         </div>
 
-        {/* Logout Link */}
         <Link 
           href="/" 
           className="flex items-center gap-3 px-4 py-3 text-sm font-bold text-red-500 hover:bg-red-50 rounded-xl transition-all"
