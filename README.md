@@ -85,7 +85,7 @@ ROOT CONFIGURATION
 
 ## 🚀 Cara Memulai
 
-1. Klon Repositori
+1. Clone Repositori
 ```bash
 git clone https://github.com/username/saas-template-premium.git
 cd saas-template-premium
