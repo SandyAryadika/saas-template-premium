@@ -1,12 +1,24 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Shield, User, Mail, Globe, Camera, Trash2, 
-  Bell, Clock, CreditCard, AlertTriangle 
+  Bell, Clock, AlertTriangle, X 
 } from 'lucide-react';
+import { toast } from "sonner";
 
 const SettingsForm = () => {
+  // 1. STATE UNTUK MODAL KONFIRMASI HAPUS AKUN
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  // 2. BUAT FUNGSI INI di atas return
+  const handleSave = (e: React.FormEvent) => {
+    e.preventDefault(); // Mencegah reload halaman
+    toast.success("Profil diperbarui!", {
+      description: "Perubahan informasi akun Anda telah berhasil disimpan.",
+    });
+  };
+
   return (
     <div className="w-full space-y-6 md:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
       
@@ -17,7 +29,7 @@ const SettingsForm = () => {
           <h3 className="font-bold text-lg">Informasi Profil</h3>
         </div>
 
-        {/* Update Foto Profil: Baris di desktop, kolom di mobile */}
+        {/* Update Foto Profil */}
         <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
           <div className="relative group shrink-0">
             <div className="w-24 h-24 rounded-full bg-zinc-100 border-2 border-white shadow-md overflow-hidden ring-4 ring-zinc-50">
@@ -45,7 +57,7 @@ const SettingsForm = () => {
           </div>
         </div>
 
-        {/* Input Form Grid: 1 kolom di HP, 2 kolom di Desktop */}
+        {/* Input Form Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
           <div className="space-y-2">
             <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest px-1">Nama Lengkap</label>
@@ -69,15 +81,14 @@ const SettingsForm = () => {
         </div>
         
         <div className="pt-4 border-t border-zinc-50">
-          <button className="w-full sm:w-auto bg-zinc-900 text-white px-10 py-3.5 rounded-full text-sm font-bold hover:bg-zinc-800 transition-all shadow-lg shadow-zinc-200 active:scale-95">
+          <button onClick={handleSave} className="w-full sm:w-auto bg-zinc-900 text-white px-10 py-3.5 rounded-full text-sm font-bold hover:bg-zinc-800 transition-all shadow-lg shadow-zinc-200 active:scale-95">
             Simpan Perubahan
           </button>
         </div>
       </div>
 
-      {/* 2. PREFERENSI & LOKASI (Stacked di Mobile) */}
+      {/* 2. PREFERENSI & LOKASI */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
-        {/* Notifikasi Email */}
         <div className="bg-white p-6 md:p-8 rounded-3xl border border-zinc-200 shadow-sm space-y-6">
           <h3 className="font-bold flex items-center gap-2"><Bell size={18} className="text-indigo-600" /> Notifikasi</h3>
           <div className="space-y-4">
@@ -96,7 +107,6 @@ const SettingsForm = () => {
           </div>
         </div>
 
-        {/* Lokasi & Bahasa */}
         <div className="bg-white p-6 md:p-8 rounded-3xl border border-zinc-200 shadow-sm space-y-6">
           <h3 className="font-bold flex items-center gap-2"><Clock size={18} className="text-indigo-600" /> Lokasi & Bahasa</h3>
           <div className="space-y-4">
@@ -120,7 +130,6 @@ const SettingsForm = () => {
 
       {/* 3. KEAMANAN & DANGER ZONE */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
-        {/* Ubah Password */}
         <div className="lg:col-span-2 bg-white p-6 md:p-8 rounded-3xl border border-zinc-200 shadow-sm space-y-6">
           <div className="flex items-center gap-2 text-zinc-900 border-b border-zinc-50 pb-4">
             <Shield size={18} className="text-indigo-600" />
@@ -137,7 +146,7 @@ const SettingsForm = () => {
           </div>
         </div>
 
-        {/* Hapus Akun */}
+        {/* Danger Zone */}
         <div className="bg-red-50 p-6 md:p-8 rounded-3xl border border-red-100 shadow-sm space-y-6">
           <div className="flex items-center gap-2 text-red-600">
             <AlertTriangle size={18} />
@@ -146,11 +155,69 @@ const SettingsForm = () => {
           <p className="text-xs text-red-700/80 font-bold leading-relaxed">
             Tindakan ini permanen. Seluruh data project Anda akan dihapus selamanya.
           </p>
-          <button className="w-full py-3.5 bg-red-600 text-white text-xs font-bold rounded-xl hover:bg-red-700 transition-all shadow-lg shadow-red-100 active:scale-95">
+          <button 
+            onClick={() => setIsDeleteModalOpen(true)}
+            className="w-full py-3.5 bg-red-600 text-white text-xs font-bold rounded-xl hover:bg-red-700 transition-all shadow-lg shadow-red-100 active:scale-95"
+          >
             Hapus Akun
           </button>
         </div>
       </div>
+
+      {/* MODAL KONFIRMASI HAPUS AKUN */}
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-zinc-900/60 backdrop-blur-md animate-in fade-in duration-300"
+            onClick={() => setIsDeleteModalOpen(false)}
+          />
+
+          {/* Modal Card */}
+          <div className="relative w-full max-w-md bg-white rounded-[2.5rem] shadow-2xl border border-zinc-100 animate-in zoom-in-95 slide-in-from-bottom-8 duration-300 overflow-hidden">
+            <div className="p-8 text-center space-y-6">
+              {/* Icon Warning */}
+              <div className="mx-auto w-20 h-20 bg-red-50 rounded-full flex items-center justify-center text-red-600 mb-2">
+                <AlertTriangle size={40} />
+              </div>
+
+              <div className="space-y-2">
+                <h3 className="text-xl font-bold text-zinc-900">Anda Yakin Ingin Pergi?</h3>
+                <p className="text-sm text-zinc-500 leading-relaxed font-medium">
+                  Menghapus akun akan menghapus semua project, data tim, dan riwayat penagihan Anda secara permanen. Tindakan ini tidak dapat dibatalkan.
+                </p>
+              </div>
+
+              {/* Aksi */}
+              <div className="flex flex-col gap-3 pt-4">
+                <button 
+                  onClick={() => {
+                    console.log("Akun dihapus");
+                    setIsDeleteModalOpen(false);
+                  }}
+                  className="w-full py-4 bg-red-600 text-white rounded-2xl text-sm font-bold hover:bg-red-700 transition-all shadow-xl shadow-red-100 active:scale-95"
+                >
+                  Ya, Hapus Akun Saya
+                </button>
+                <button 
+                  onClick={() => setIsDeleteModalOpen(false)}
+                  className="w-full py-4 bg-zinc-50 text-zinc-500 rounded-2xl text-sm font-bold hover:bg-zinc-100 transition-all"
+                >
+                  Batal
+                </button>
+              </div>
+            </div>
+
+            {/* Tombol Close */}
+            <button 
+              onClick={() => setIsDeleteModalOpen(false)}
+              className="absolute top-6 right-6 p-2 text-zinc-400 hover:text-zinc-900 bg-zinc-50 rounded-full transition-all"
+            >
+              <X size={18} />
+            </button>
+          </div>
+        </div>
+      )}
 
     </div>
   );

@@ -2,107 +2,83 @@
 
 import React, { useState } from 'react';
 import { 
-  HelpCircle, Search, MessageSquare, 
-  BookOpen, Mail, ChevronDown, ChevronUp, LifeBuoy,
-  CreditCard, ShieldCheck, Zap, ArrowUpRight
+  Search, BookOpen, MessageSquare, Mail, 
+  LifeBuoy, ChevronRight, X, Send, 
+  FileQuestion, MessageCircle, AlertCircle
 } from 'lucide-react';
 
 const HelpCenter = () => {
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  // 1. STATE UNTUK MODAL TIKET DUKUNGAN
+  const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
-  // Data FAQ standar SaaS
   const faqs = [
-    { 
-      q: "Bagaimana cara menambah anggota tim baru?", 
-      a: "Buka menu 'Tim Kami' di sidebar, lalu klik tombol 'Undang Anggota'. Masukkan alamat email mereka dan tentukan peran aksesnya (Admin atau Member)." 
-    },
-    { 
-      q: "Apakah saya bisa membatalkan langganan kapan saja?", 
-      a: "Tentu. Anda dapat mengelola langganan di menu Billing. Jika Anda membatalkan, akses Pro akan tetap aktif hingga akhir periode penagihan saat ini." 
-    },
-    { 
-      q: "Apakah data saya aman dan terenkripsi?", 
-      a: "Keamanan adalah prioritas kami. Semua data dienkripsi menggunakan standar industri AES-256 dan disimpan di infrastruktur cloud yang memiliki sertifikasi global." 
+    {
+      id: 1,
+      q: "Bagaimana cara menghubungkan API?",
+      a: "Anda dapat menemukan kunci API di halaman Pengaturan > Developer. Dokumentasi lengkap tersedia di docs.saasflow.com."
     },
     {
-      q: "Bagaimana cara integrasi dengan API?",
-      a: "Kami mendukung integrasi via Webhooks dan API Key. Anda dapat menemukan dokumentasi lengkapnya di bagian Dokumentasi Pengembang."
+      id: 2,
+      q: "Apakah saya bisa membatalkan langganan kapan saja?",
+      a: "Ya, Anda dapat membatalkan langganan kapan saja melalui menu Billing. Akses pro Anda akan tetap aktif hingga akhir periode penagihan."
+    },
+    {
+      id: 3,
+      q: "Bagaimana cara mengundang anggota tim?",
+      a: "Buka menu 'Tim Kami', klik tombol 'Undang Anggota', dan masukkan alamat email mereka."
     }
   ];
 
   return (
-    <div className="w-full space-y-8 md:space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <div className="w-full space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
       
-      {/* 1. HERO SEARCH SECTION (Responsif Full) */}
-      <div className="bg-indigo-600 rounded-[2rem] md:rounded-[3rem] p-8 md:p-20 text-center relative overflow-hidden shadow-xl shadow-indigo-100">
-        <div className="relative z-10 space-y-6 md:space-y-8">
-          <div className="space-y-3">
-            <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight">
-              Pusat Bantuan
-            </h2>
-            <p className="text-indigo-100 text-sm md:text-base font-medium max-w-lg mx-auto">
-              Cari tutorial, jawaban pertanyaan umum, atau hubungi tim dukungan kami secara langsung.
-            </p>
-          </div>
-          
-          <div className="relative max-w-2xl mx-auto group">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-400 group-focus-within:text-indigo-600 transition-colors" size={22} />
+      {/* 2. HERO SECTION: Search & Welcome */}
+      <div className="bg-indigo-600 rounded-[2.5rem] p-8 md:p-16 text-center text-white relative overflow-hidden shadow-xl shadow-indigo-100">
+        <div className="relative z-10 space-y-6">
+          <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">Ada yang bisa kami bantu?</h2>
+          <p className="text-indigo-100 text-sm md:text-lg max-w-2xl mx-auto font-medium">
+            Cari jawaban di dokumentasi kami atau hubungi tim dukungan secara langsung.
+          </p>
+          <div className="relative max-w-xl mx-auto">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-indigo-400" size={20} />
             <input 
               type="text" 
-              placeholder="Ketik pertanyaan Anda di sini..." 
-              className="w-full pl-14 pr-6 py-4 md:py-5 bg-white border-none rounded-2xl md:rounded-[1.5rem] text-zinc-900 shadow-2xl focus:ring-4 focus:ring-indigo-500/20 outline-none transition-all text-sm md:text-base"
+              placeholder="Cari solusi atau panduan..." 
+              className="w-full pl-12 pr-6 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl text-white placeholder:text-indigo-200 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all shadow-2xl" 
             />
           </div>
         </div>
-        {/* Dekorasi Cahaya */}
-        <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 blur-[100px] -z-0" />
-        <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-indigo-400/20 blur-[80px] -z-0" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 blur-[100px] -z-0" />
       </div>
 
-      {/* 2. KATEGORI BANTUAN (Grid Responsif) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {[
-          { icon: <Zap className="text-amber-500" />, title: 'Mulai Cepat', desc: 'Panduan setup awal aplikasi Anda.' },
-          { icon: <CreditCard className="text-emerald-500" />, title: 'Penagihan', desc: 'Info invoice dan paket langganan.' },
-          { icon: <ShieldCheck className="text-indigo-500" />, title: 'Keamanan', desc: 'Kelola privasi dan izin akses data.' },
-        ].map((item, i) => (
-          <div key={i} className="bg-white p-8 rounded-3xl border border-zinc-200 shadow-sm hover:shadow-md transition-all cursor-pointer group hover:-translate-y-1">
-            <div className="w-14 h-14 bg-zinc-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform border border-zinc-100 shadow-sm">
-              {item.icon}
-            </div>
-            <h4 className="font-bold text-zinc-900 mb-2">{item.title}</h4>
-            <p className="text-xs text-zinc-500 font-medium leading-relaxed">{item.desc}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* 3. FAQ & SUPPORT SIDEBAR (Grid Responsif) */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        {/* Accordion FAQ (Layar Besar: 2/3, Layar Kecil: Full) */}
+        {/* 3. FAQ SECTION (Kiri) */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-indigo-50 rounded-xl text-indigo-600">
-              <HelpCircle size={20} />
-            </div>
-            <h3 className="text-xl font-bold text-zinc-900">FAQ Terpopuler</h3>
+          <div className="flex items-center gap-2 mb-2">
+            <FileQuestion size={20} className="text-indigo-600" />
+            <h3 className="font-bold text-xl text-zinc-900">Pertanyaan Populer</h3>
           </div>
-          
-          <div className="space-y-4">
-            {faqs.map((faq, i) => (
-              <div key={i} className="bg-white border border-zinc-200 rounded-2xl overflow-hidden shadow-sm transition-all hover:border-indigo-100">
+          <div className="space-y-3">
+            {faqs.map((faq) => (
+              <div 
+                key={faq.id} 
+                className="bg-white border border-zinc-200 rounded-3xl overflow-hidden shadow-sm transition-all hover:border-indigo-200"
+              >
                 <button 
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-zinc-50/50 transition-colors"
+                  onClick={() => setActiveFaq(activeFaq === faq.id ? null : faq.id)}
+                  className="w-full p-6 text-left flex justify-between items-center group"
                 >
-                  <span className="text-sm md:text-base font-bold text-zinc-900 pr-4">{faq.q}</span>
-                  {openFaq === i ? <ChevronUp size={20} className="text-indigo-600 shrink-0" /> : <ChevronDown size={20} className="text-zinc-400 shrink-0" />}
+                  <span className="font-bold text-sm text-zinc-900 group-hover:text-indigo-600 transition-colors">{faq.q}</span>
+                  <ChevronRight 
+                    size={18} 
+                    className={`text-zinc-400 transition-transform duration-300 ${activeFaq === faq.id ? 'rotate-90' : ''}`} 
+                  />
                 </button>
-                {openFaq === i && (
-                  <div className="px-6 pb-6 text-sm text-zinc-500 leading-relaxed animate-in fade-in slide-in-from-top-2 duration-300">
-                    <div className="pt-2 border-t border-zinc-50">
-                      {faq.a}
-                    </div>
+                {activeFaq === faq.id && (
+                  <div className="px-6 pb-6 text-sm text-zinc-500 leading-relaxed animate-in slide-in-from-top-2">
+                    {faq.a}
                   </div>
                 )}
               </div>
@@ -110,40 +86,131 @@ const HelpCenter = () => {
           </div>
         </div>
 
-        {/* Sidebar Bantuan Langsung (Layar Besar: 1/3, Layar Kecil: Full) */}
+        {/* 4. SUPPORT OPTIONS (Kanan) */}
         <div className="space-y-6">
-          <div className="bg-zinc-900 rounded-[2rem] p-8 text-white shadow-2xl relative overflow-hidden group">
-            <div className="relative z-10">
-              <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-indigo-500/20 group-hover:rotate-12 transition-transform">
-                <LifeBuoy size={24} />
+          <h3 className="font-bold text-xl text-zinc-900 mb-2 flex items-center gap-2">
+            <LifeBuoy size={20} className="text-indigo-600" /> Kontak Kami
+          </h3>
+          <div className="bg-white p-6 rounded-3xl border border-zinc-200 shadow-sm space-y-6">
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-indigo-50 rounded-2xl text-indigo-600">
+                <BookOpen size={20} />
               </div>
-              <h4 className="text-xl font-bold mb-3">Butuh bantuan personal?</h4>
-              <p className="text-xs text-zinc-400 leading-relaxed mb-8 font-medium">
-                Tim dukungan teknis kami tersedia 24/7 untuk membantu menyelesaikan masalah Anda secara real-time.
-              </p>
-              <div className="space-y-3">
-                <button className="w-full flex items-center justify-center gap-2 py-4 bg-white text-zinc-900 rounded-xl text-xs font-extrabold hover:bg-zinc-100 transition-all active:scale-95 shadow-sm">
-                  <MessageSquare size={16} /> Chat Langsung
-                </button>
-                <button className="w-full flex items-center justify-center gap-2 py-4 bg-zinc-800 text-white border border-zinc-700 rounded-xl text-xs font-extrabold hover:bg-zinc-700 transition-all active:scale-95">
-                  <Mail size={16} /> Kirim Tiket Email
-                </button>
+              <div>
+                <h4 className="text-sm font-bold text-zinc-900">Dokumentasi API</h4>
+                <p className="text-xs text-zinc-500 mt-1">Panduan lengkap integrasi sistem.</p>
+                <button className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest mt-2 hover:underline">Baca Sekarang</button>
               </div>
             </div>
-            {/* Dekorasi Gradient */}
-            <div className="absolute -top-10 -right-10 w-32 h-32 bg-indigo-600/20 blur-[50px] rounded-full" />
-          </div>
+            
+            <div className="h-px bg-zinc-100" />
 
-          <div className="p-8 bg-zinc-50 rounded-[2rem] border border-dashed border-zinc-200 text-center">
-            <p className="text-xs text-zinc-400 font-bold uppercase tracking-tighter mb-1">Status Sistem</p>
-            <div className="flex items-center justify-center gap-2 text-emerald-600 font-bold text-sm">
-              <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-              Semua Sistem Normal
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-emerald-50 rounded-2xl text-emerald-600">
+                <MessageCircle size={20} />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-zinc-900">Chat Langsung</h4>
+                <p className="text-xs text-zinc-500 mt-1">Waktu tunggu rata-rata: 5 Menit.</p>
+                <button className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest mt-2 hover:underline">Mulai Chat</button>
+              </div>
             </div>
+
+            <div className="h-px bg-zinc-100" />
+
+            {/* TOMBOL UNTUK MEMBUKA MODAL TIKET */}
+            <button 
+              onClick={() => setIsTicketModalOpen(true)}
+              className="w-full flex items-center justify-center gap-3 py-4 bg-zinc-900 text-white rounded-2xl text-sm font-bold hover:bg-zinc-800 transition-all shadow-xl shadow-zinc-200 active:scale-95"
+            >
+              <Mail size={18} /> Kirim Tiket Email
+            </button>
           </div>
         </div>
 
       </div>
+
+      {/* 5. MODAL KIRIM TIKET DUKUNGAN */}
+      {isTicketModalOpen && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-zinc-900/40 backdrop-blur-sm animate-in fade-in duration-300"
+            onClick={() => setIsTicketModalOpen(false)}
+          />
+
+          {/* Modal Card */}
+          <div className="relative w-full max-w-lg bg-white rounded-[2.5rem] shadow-2xl border border-zinc-100 animate-in zoom-in-95 slide-in-from-bottom-8 duration-300 overflow-hidden">
+            <div className="px-8 pt-8 pb-6 flex justify-between items-center border-b border-zinc-50">
+              <div>
+                <h3 className="text-xl font-bold text-zinc-900">Kirim Tiket Bantuan</h3>
+                <p className="text-xs text-zinc-500 font-medium">Tim kami akan merespons dalam waktu 1x24 jam.</p>
+              </div>
+              <button 
+                onClick={() => setIsTicketModalOpen(false)}
+                className="p-2 text-zinc-400 hover:text-zinc-900 bg-zinc-50 rounded-full transition-all"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <form className="p-8 space-y-5">
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest px-1">Subjek Masalah</label>
+                <input 
+                  type="text" 
+                  placeholder="Contoh: Error saat integrasi API"
+                  className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600/20 transition-all" 
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest px-1">Kategori Kendala</label>
+                <select className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600/20 transition-all cursor-pointer">
+                  <option value="tech">Masalah Teknis</option>
+                  <option value="billing">Penagihan & Langganan</option>
+                  <option value="feature">Permintaan Fitur</option>
+                  <option value="account">Akses Akun</option>
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest px-1">Detail Masalah</label>
+                <textarea 
+                  rows={4}
+                  placeholder="Jelaskan secara detail kendala yang Anda alami..."
+                  className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600/20 transition-all resize-none" 
+                />
+              </div>
+
+              <div className="flex items-start gap-3 p-4 bg-amber-50 rounded-2xl border border-amber-100">
+                <AlertCircle size={18} className="text-amber-600 shrink-0 mt-0.5" />
+                <p className="text-[10px] text-amber-700 font-medium leading-relaxed">
+                  Harap lampirkan ID Project jika masalah terkait dengan alur kerja tertentu untuk mempercepat proses investigasi.
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="pt-4 flex gap-3">
+                <button 
+                  type="button"
+                  onClick={() => setIsTicketModalOpen(false)}
+                  className="flex-1 py-3.5 bg-zinc-50 text-zinc-600 rounded-2xl text-xs font-bold hover:bg-zinc-100 transition-all"
+                >
+                  Batal
+                </button>
+                <button 
+                  type="submit"
+                  className="flex-1 py-3.5 bg-indigo-600 text-white rounded-2xl text-xs font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100 flex items-center justify-center gap-2"
+                >
+                  <Send size={14} /> Kirim Tiket
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

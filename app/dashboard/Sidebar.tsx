@@ -12,18 +12,15 @@ import {
   ChevronsUpDown, 
   Zap,
   CreditCard,
-  Bell,
-  X // Ikon untuk menutup menu di mobile
+  Bell
 } from 'lucide-react';
 
 interface SidebarProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
-  isOpen: boolean;    // Prop baru untuk melacak status buka/tutup di HP
-  onClose: () => void; // Prop baru untuk fungsi menutup sidebar
 }
 
-const Sidebar = ({ activeTab, setActiveTab, isOpen, onClose }: SidebarProps) => {
+const Sidebar = ({ activeTab, setActiveTab }: SidebarProps) => {
   const menuItems = [
     { name: 'Ringkasan', icon: <LayoutDashboard size={18} />, badge: null },
     { name: 'Analitik', icon: <BarChart3 size={18} />, badge: 'New' },
@@ -34,25 +31,11 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, onClose }: SidebarProps) => 
   ];
 
   return (
-    <aside className={`
-      /* Dasar Layout: Fixed di kiri dengan lebar 72 (w-72) */
-      fixed inset-y-0 left-0 z-40 w-72 bg-white border-r border-zinc-200 transition-transform duration-300 ease-in-out flex flex-col font-sans
-      /* Logika Responsif: Sembunyi di mobile (-translate-x-full), muncul di desktop (lg:translate-x-0) */
-      ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0
-    `}>
+    /* Container Utama: Hilangkan overflow-y-auto di sini agar container tidak scroll secara keseluruhan */
+    <aside className="hidden lg:flex w-72 flex-col bg-white border-r border-zinc-200 fixed h-full z-20 font-sans">
       
-      {/* 1. HEADER: Workspace Switcher (Tetap di Atas / Statis) */}
+      {/* 1. HEADER: Workspace Switcher (Tetap di Atas) */}
       <div className="p-6 pb-2 flex-shrink-0">
-        <div className="flex items-center justify-between mb-6 lg:mb-4">
-          <div className="text-xl font-extrabold tracking-tighter">
-            SaaS<span className="text-indigo-600">Flow</span>
-          </div>
-          {/* Tombol X hanya muncul di Mobile untuk menutup sidebar */}
-          <button onClick={onClose} className="lg:hidden p-2 text-zinc-500 hover:bg-zinc-100 rounded-xl transition-colors">
-            <X size={20} />
-          </button>
-        </div>
-
         <div className="flex items-center justify-between p-3 mb-4 bg-zinc-50 border border-zinc-200 rounded-2xl cursor-pointer hover:bg-zinc-100 transition-all group">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xs shadow-sm">
@@ -70,7 +53,7 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, onClose }: SidebarProps) => 
         </p>
       </div>
 
-      {/* 2. BODY: Main Navigation (Bagian ini yang bisa di-scroll) */}
+      {/* 2. BODY: Main Navigation (Hanya bagian ini yang bisa di-scroll) */}
       <nav className="flex-1 overflow-y-auto px-6 space-y-1.5 scrollbar-thin scrollbar-thumb-zinc-200 scrollbar-track-transparent">
         {menuItems.map((item) => (
           <button 
@@ -100,8 +83,9 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, onClose }: SidebarProps) => 
         ))}
       </nav>
 
-      {/* 3. FOOTER: Support & Account (Tetap di Bawah / Statis) */}
+      {/* 3. FOOTER: Support & Account (Tetap di Bawah) */}
       <div className="flex-shrink-0 p-6 border-t border-zinc-100 space-y-4 bg-white">
+        {/* Support Button */}
         <button 
           onClick={() => setActiveTab('Pusat Bantuan')}
           className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-bold transition-all rounded-xl ${
@@ -131,6 +115,7 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, onClose }: SidebarProps) => 
           </Link>
         </div>
 
+        {/* Logout Link */}
         <Link 
           href="/" 
           className="flex items-center gap-3 px-4 py-3 text-sm font-bold text-red-500 hover:bg-red-50 rounded-xl transition-all"

@@ -31,8 +31,6 @@ const DashboardPage = () => {
           setActiveTab(tab);
           setIsSidebarOpen(false); 
         }} 
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
       />
 
       {/* OVERLAY MOBILE 
