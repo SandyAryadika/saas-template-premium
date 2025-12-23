@@ -1,6 +1,4 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
+# 1. Dependencies
 /node_modules
 /.pnp
 .pnp.*
@@ -8,34 +6,55 @@
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
+!.yarn/sdks
 !.yarn/versions
 
-# testing
-/coverage
-
-# next.js
+# 2. Next.js & Build Output
 /.next/
 /out/
-
-# production
 /build
+/dist
+/.turbo
+/public/previews # Jika Anda punya folder preview otomatis
 
-# misc
-.DS_Store
-*.pem
+# 3. Environment Variables (Sangat Penting!)
+# Kita abaikan semua file .env untuk keamanan
+.env*
+!.env.example # Kecuali file contoh (untuk dokumentasi tim)
 
-# debug
+# 4. Logs & Debugging
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+*.log
+/logs
 
-# env files (can opt-in for committing if needed)
-.env*
+# 5. Editor & IDE (Menghindari konfigurasi lokal editor ikut ter-upload)
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json # Opsional: jika ingin share setting ke tim, hapus baris ini
+.idea/
+*.swp
+*.swo
 
-# vercel
-.vercel
+# 6. OS Metadata
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
 
-# typescript
+# 7. Testing & Coverage
+/coverage
+/.nyc_output
+
+# 8. Typescript & Metadata vercel
 *.tsbuildinfo
 next-env.d.ts
+.vercel
+
+# 9. Miscellaneous
+*.pem
+*.key
+.eslintcache

@@ -16,7 +16,6 @@ import {
   X // Ikon untuk menutup menu di mobile
 } from 'lucide-react';
 
-// Pembaruan Interface untuk mendukung fitur responsif
 interface SidebarProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
