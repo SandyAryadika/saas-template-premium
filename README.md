@@ -35,17 +35,50 @@ Template ini dilengkapi dengan modul-modul fungsional yang siap pakai:
 Proyek ini menggunakan struktur modular untuk memudahkan kustomisasi:
 
 ```text
-app/dashboard/
-├── Analytics.tsx      # Visualisasi data & performa
-├── Billing.tsx        # Manajemen penagihan & limit
-├── HelpCenter.tsx     # Dokumentasi & FAQ interaktif
-├── Notifications.tsx  # Pusat pemberitahuan pengguna
-├── Overview.tsx       # Ringkasan aktivitas & statistik
-├── SettingsForm.tsx   # Pengaturan profil & keamanan
-├── Sidebar.tsx        # Navigasi utama & switcher workspace
-├── TeamTable.tsx      # Manajemen anggota tim
-├── TopNav.tsx         # Navbar dengan search & profile
-└── page.tsx           # Dashboard controller (Main State)
+APP DIRECTORY (Core Logic & Routing)
+app/
+├── auth/
+│   └── page.tsx          # Halaman autentikasi (Login & Signup)
+├── dashboard/            # Modul aplikasi utama (Setelah login)
+│   ├── Analytics.tsx     # Fitur visualisasi data performa
+│   ├── Billing.tsx       # Manajemen paket & riwayat transaksi
+│   ├── HelpCenter.tsx    # Pusat bantuan & FAQ interaktif
+│   ├── Notifications.tsx # Pusat pemberitahuan aktivitas
+│   ├── Overview.tsx      # Ringkasan statistik & proyek terbaru
+│   ├── SettingsForm.tsx  # Pengaturan profil, preferensi, & keamanan
+│   ├── Sidebar.tsx       # Navigasi utama dengan fitur responsif
+│   ├── TeamTable.tsx     # Manajemen anggota tim & peran akses
+│   ├── TopNav.tsx        # Navbar dashboard dengan search & profil
+│   └── page.tsx          # Controller utama Dashboard (Main State)
+├── favicon.ico           # Ikon aplikasi untuk tab browser
+├── globals.css           # Konfigurasi utama Tailwind CSS v4
+├── layout.tsx            # Struktur HTML root & konfigurasi font
+└── page.tsx              # Landing Page utama (Halaman Depan)
+```
+
+```text
+COMPONENTS DIRECTORY (Reusable UI)
+components/
+├── layout/               # Komponen kerangka landing page
+│   ├── Navbar.tsx        # Navigasi atas halaman depan
+│   └── Footer.tsx        # Bagian bawah informasi aplikasi
+└── sections/             # Bagian-bagian penyusun Landing Page
+    ├── HeroSection.tsx   # Area promosi utama dengan animasi
+    ├── Features.tsx      # Daftar fitur unggulan SaaS
+    ├── Solutions.tsx     # Penjelasan solusi yang ditawarkan
+    ├── Pricing.tsx       # Tabel harga & paket langganan
+    └── DocPreview.tsx    # Pratinjau visual dokumentasi/produk
+```
+
+```text
+ROOT CONFIGURATION
+├── .gitignore            # Daftar file yang diabaikan oleh Git
+├── eslint.config.mjs     # Konfigurasi standar kualitas kode
+├── next.config.ts        # Pengaturan framework Next.js
+├── package.json          # Daftar dependensi & skrip perintah
+├── postcss.config.mjs    # Konfigurasi pemrosesan CSS
+├── tsconfig.json         # Konfigurasi TypeScript
+└── README.md             # Dokumentasi utama proyek
 ```
 
 ---
