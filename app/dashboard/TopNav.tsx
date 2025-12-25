@@ -1,34 +1,38 @@
 "use client";
 
 import React from 'react';
-import { Search, Bell, Menu } from 'lucide-react';
+import { Search, Bell, Menu, X } from 'lucide-react';
 
-// Pembaruan Interface untuk mendukung fitur responsif
 interface TopNavProps {
   activeTab: string;
-  onOpenSidebar: () => void; // Prop baru untuk membuka sidebar di mobile
+  isMobileOpen: boolean;
+  setIsMobileOpen: (open: boolean) => void;
 }
 
-const TopNav = ({ activeTab, onOpenSidebar }: TopNavProps) => {
+const TopNav = ({ activeTab, isMobileOpen, setIsMobileOpen }: TopNavProps) => {
   return (
-    <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
+    <header className="sticky top-0 z-30 flex flex-col md:flex-row justify-between items-start md:items-center p-4 lg:p-8 bg-white/80 backdrop-blur-md border-b border-zinc-200 gap-4">
       
       {/* BAGIAN KIRI: Judul & Menu Hamburger */}
       <div className="flex items-center gap-4">
-        {/* Tombol Menu (Hamburger): Hanya muncul di layar Mobile (lg:hidden) */}
+        {/* Tombol Hamburger: Muncul di mobile, berubah ikon saat dibuka */}
         <button 
-          onClick={onOpenSidebar}
-          className="lg:hidden p-2.5 bg-white border border-zinc-200 rounded-xl text-zinc-600 shadow-sm hover:bg-zinc-50 transition-colors"
-          aria-label="Buka Menu"
+          onClick={() => setIsMobileOpen(!isMobileOpen)}
+          className="lg:hidden p-2.5 bg-white border border-zinc-200 rounded-xl text-zinc-600 shadow-sm hover:bg-zinc-50 transition-all active:scale-95"
+          aria-label={isMobileOpen ? "Tutup Menu" : "Buka Menu"}
         >
-          <Menu size={20} />
+          {isMobileOpen ? (
+            <X size={20} className="animate-in spin-in-90 duration-300" />
+          ) : (
+            <Menu size={20} className="animate-in zoom-in duration-300" />
+          )}
         </button>
         
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-zinc-900">
             {activeTab}
           </h1>
-          {/* Breadcrumb disembunyikan di layar sangat kecil agar tidak sempit */}
+          {/* Breadcrumb disembunyikan di layar sangat kecil */}
           <p className="text-sm text-zinc-500 font-medium italic hidden sm:block">
             Dashboard / {activeTab}
           </p>
@@ -38,7 +42,7 @@ const TopNav = ({ activeTab, onOpenSidebar }: TopNavProps) => {
       {/* BAGIAN KANAN: Search, Notifikasi, & Profil */}
       <div className="flex items-center gap-3 w-full md:w-auto">
         
-        {/* Input Pencarian: Responsif (w-full di mobile, w-64 di desktop) */}
+        {/* Input Pencarian: Responsif */}
         <div className="relative flex-1 md:flex-none">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" size={16} />
           <input 
@@ -48,9 +52,10 @@ const TopNav = ({ activeTab, onOpenSidebar }: TopNavProps) => {
           />
         </div>
 
-        {/* Tombol Notifikasi */}
-        <button className="p-2.5 text-zinc-400 hover:text-zinc-900 bg-white border border-zinc-200 rounded-2xl transition shadow-sm group">
+        {/* Tombol Notifikasi dengan Indikator Dot */}
+        <button className="relative p-2.5 text-zinc-400 hover:text-zinc-900 bg-white border border-zinc-200 rounded-2xl transition shadow-sm group">
           <Bell size={20} className="group-hover:rotate-12 transition-transform" />
+          <span className="absolute top-2.5 right-3 w-2 h-2 bg-red-500 border-2 border-white rounded-full"></span>
         </button>
 
         {/* Profil Pengguna */}

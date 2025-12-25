@@ -12,19 +12,17 @@ import SettingsForm from './SettingsForm';
 import HelpCenter from './HelpCenter';
 
 const DashboardPage = () => {
-  // State untuk melacak tab mana yang aktif
   const [activeTab, setActiveTab] = useState('Ringkasan');
-  
-  // State untuk mengontrol visibilitas sidebar pada layar seluler (HP/Tablet)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-zinc-50 font-sans">
+    /* PERBAIKAN KUNCI: 
+      1. Ganti 'min-h-screen' menjadi 'h-screen' (Tinggi pas layar).
+      2. Tambahkan 'overflow-hidden' agar scrollbar browser tidak muncul.
+    */
+    <div className="flex h-screen overflow-hidden bg-zinc-50 font-sans selection:bg-indigo-100 selection:text-indigo-700">
       
-      {/* SIDEBAR COMPONENT 
-        - Mengirimkan prop 'isOpen' untuk kontrol tampilan mobile.
-        - Fungsi 'setActiveTab' juga akan menutup sidebar secara otomatis setelah menu dipilih di HP.
-      */}
+      {/* SIDEBAR COMPONENT */}
       <Sidebar 
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
@@ -32,40 +30,37 @@ const DashboardPage = () => {
         setIsMobileOpen={setIsSidebarOpen} 
       />
 
-      {/* OVERLAY MOBILE 
-        Muncul saat sidebar terbuka di layar kecil untuk memberikan fokus dan memungkinkan penutupan dengan klik di luar area sidebar.
+      {/* MAIN CONTENT AREA 
+          'min-w-0' penting untuk mencegah elemen lebar (seperti tabel) merusak layout flexbox.
       */}
-      {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-zinc-900/50 z-30 lg:hidden backdrop-blur-sm transition-opacity duration-300"
-          onClick={() => setIsSidebarOpen(false)}
-        />
-      )}
-
-      {/* MAIN CONTENT AREA
-        - Menggunakan 'lg:ml-72' agar konten tidak tertutup oleh sidebar yang bersifat 'fixed' di desktop.
-        - Transisi halus saat sidebar muncul/hilang.
-      */}
-      <main className="flex-1 lg:ml-72 p-4 md:p-8 lg:p-12 transition-all duration-300 min-h-screen">
+      <div className="flex-1 flex flex-col min-w-0 h-full">
         
-        {/* TOP NAVIGATION: Menyediakan judul halaman dan tombol menu hamburger untuk mobile */}
+        {/* TOP NAVIGATION */}
         <TopNav 
           activeTab={activeTab} 
-          onOpenSidebar={() => setIsSidebarOpen(true)} 
+          isMobileOpen={isSidebarOpen} 
+          setIsMobileOpen={setIsSidebarOpen} 
         />
         
-        {/* DYNAMIC CONTENT RENDERING: Menampilkan komponen berdasarkan pilihan di sidebar */}
-        <div className="mt-4">
-          {activeTab === 'Ringkasan' && <Overview />}
-          {activeTab === 'Analitik' && <Analytics />}
-          {activeTab === 'Notifikasi' && <Notifications />}
-          {activeTab === 'Tim Kami' && <TeamTable />}
-          {activeTab === 'Billing' && <Billing />}
-          {activeTab === 'Pengaturan' && <SettingsForm />}
-          {activeTab === 'Pusat Bantuan' && <HelpCenter />}
-        </div>
+        {/* CONTAINER SCROLL: 
+          Hanya bagian ini yang boleh memiliki scrollbar.
+          'flex-1' akan mengambil sisa tinggi layar setelah dipotong TopNav.
+        */}
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 scroll-smooth">
+          <div className="max-w-7xl mx-auto">
+            <div className="mt-2 pb-10"> {/* Tambahkan padding bottom agar konten bawah tidak nempel sekali */}
+              {activeTab === 'Ringkasan' && <Overview />}
+              {activeTab === 'Analitik' && <Analytics />}
+              {activeTab === 'Notifikasi' && <Notifications />}
+              {activeTab === 'Tim Kami' && <TeamTable />}
+              {activeTab === 'Billing' && <Billing />}
+              {activeTab === 'Pengaturan' && <SettingsForm />}
+              {activeTab === 'Pusat Bantuan' && <HelpCenter />}
+            </div>
+          </div>
+        </main>
 
-      </main>
+      </div>
     </div>
   );
 };
