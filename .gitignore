@@ -17,8 +17,7 @@
 /.turbo
 /public/previews # Jika Anda punya folder preview otomatis
 
-# 3. Environment Variables (Sangat Penting!)
-# Kita abaikan semua file .env untuk keamanan
+# 3. Environment Variables
 .env*
 !.env.example # Kecuali file contoh (untuk dokumentasi tim)
 
