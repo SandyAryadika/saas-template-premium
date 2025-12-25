@@ -27,7 +27,6 @@ const Billing = () => {
   return (
     <div className="w-full space-y-6 md:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
       
-      {/* SECTION: PAKET AKTIF */}
       <div className="bg-indigo-600 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-12 text-white relative overflow-hidden shadow-xl shadow-indigo-100">
         <div className="relative z-10 flex flex-col lg:flex-row justify-between items-center gap-8">
           <div className="space-y-4 text-center lg:text-left">
@@ -51,7 +50,6 @@ const Billing = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
         <div className="lg:col-span-2 space-y-6 md:space-y-8">
           
-          {/* SECTION: METODE PEMBAYARAN */}
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-zinc-200 shadow-sm space-y-6">
             <div className="flex justify-between items-center">
               <h3 className="font-bold flex items-center gap-2 text-zinc-900">

@@ -10,17 +10,16 @@ import {
 const Analytics = () => {
   // 1. STATE UNTUK SIMULASI LOADING & DATA
   const [isLoading, setIsLoading] = useState(true);
-  const [hasData, setHasData] = useState(true); // Ubah ke false untuk melihat "Empty State"
+  const [hasData, setHasData] = useState(true);
 
-  // Simulasi pengambilan data dari API
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000); // Loading selama 2 detik
+    }, 2000);
     return () => clearTimeout(timer);
   }, []);
 
-  // 2. KOMPONEN SKELETON (Tampilan saat loading)
+  // 2. KOMPONEN SKELETON
   const SkeletonCard = () => (
     <div className="bg-white p-6 rounded-3xl border border-zinc-200 shadow-sm animate-pulse">
       <div className="flex justify-between items-start mb-4">
@@ -43,7 +42,7 @@ const Analytics = () => {
     </div>
   );
 
-  // 3. KOMPONEN EMPTY STATE (Tampilan jika tidak ada data)
+  // 3. KOMPONEN EMPTY STATE
   const EmptyState = () => (
     <div className="flex flex-col items-center justify-center py-20 bg-white rounded-[2.5rem] border border-dashed border-zinc-300">
       <div className="w-20 h-20 bg-zinc-50 rounded-full flex items-center justify-center text-zinc-400 mb-6">
@@ -59,7 +58,6 @@ const Analytics = () => {
     </div>
   );
 
-  // LOGIKA RENDERING
   if (isLoading) {
     return (
       <div className="space-y-8">
@@ -117,7 +115,6 @@ const Analytics = () => {
         <div className="flex items-end justify-between h-64 gap-2 md:gap-4 px-2">
           {[60, 45, 80, 50, 90, 65, 40, 85, 55, 75, 95, 70].map((h, i) => (
             <div key={i} className="flex-1 flex flex-col items-center group cursor-pointer relative">
-              {/* Tooltip on Hover */}
               <div className="absolute -top-10 bg-zinc-900 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity font-bold">
                 {h}k
               </div>

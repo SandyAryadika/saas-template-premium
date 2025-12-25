@@ -11,7 +11,6 @@ const AuthPage = () => {
   const container = useRef(null);
 
   useGSAP(() => {
-    // Animasi masuk untuk form
     gsap.from(".auth-card", {
       y: 20,
       opacity: 0,
@@ -23,7 +22,6 @@ const AuthPage = () => {
   return (
     <div ref={container} className="min-h-screen bg-zinc-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative">
       
-      {/* Tombol Kembali */}
       <Link href="/" className="absolute top-8 left-8 flex items-center gap-2 text-sm font-bold text-zinc-500 hover:text-zinc-900 transition-colors">
         <ArrowLeft size={16} /> Kembali ke Beranda
       </Link>

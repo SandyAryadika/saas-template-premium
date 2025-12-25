@@ -18,7 +18,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   // Title menggunakan template agar otomatis berubah di setiap sub-halaman
   title: {
-    default: "SaaSFlow - Platform Otomatisasi Alur Kerja Modern 2025",
+    default: "SaaSFlow",
     template: "%s | SaaSFlow",
   },
   description: "Tingkatkan produktivitas tim Anda dengan SaaSFlow. Dashboard SaaS premium yang dibangun dengan Next.js 15 dan Tailwind CSS v4 untuk performa maksimal.",
