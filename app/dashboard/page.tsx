@@ -27,10 +27,9 @@ const DashboardPage = () => {
       */}
       <Sidebar 
         activeTab={activeTab} 
-        setActiveTab={(tab) => {
-          setActiveTab(tab);
-          setIsSidebarOpen(false); 
-        }} 
+        setActiveTab={setActiveTab} 
+        isMobileOpen={isSidebarOpen} 
+        setIsMobileOpen={setIsSidebarOpen} 
       />
 
       {/* OVERLAY MOBILE 
