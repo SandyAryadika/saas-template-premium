@@ -104,4 +104,4 @@ Buka http://localhost:3000 di browser Anda untuk melihat hasilnya.
 ---
 
 ## 📝 Lisensi
-Template ini tersedia untuk penggunaan komersial setelah pembelian lisensi melalui marketplace resmi.
+Template ini tersedia untuk penggunaan komersial setelah pembelian lisensi melalui marketplace resmi. 
